@@ -24,8 +24,16 @@ app.use(express.static('public'));
 const dirPath = path.join(_dirname, '/public');
 
 // Creating rotes to connect main path to other folders
+// Referenced Activity 18
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(dirPath, "notes.html"));
+});
+
+// Route to API Data to add/delete notes from userEntry
+// Activities 22 & 21
+app.get("/api/notes", (req, res) => {
+    // db is an empty object array before user entry
+    res.sendFile(path.join(__dirname, "/db/db.json"));
 });
 
 // Pulled from Activity 10
