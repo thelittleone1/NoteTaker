@@ -45,12 +45,17 @@ app.get("/api/notes/:id", (req, res) => {
     res.json(userEntry);
 });
 
-// Activity 18
+// Activity 18 & 20
 // Post function to post userEntered notes
 app.post("/api/notes", (req, res) => {
-    let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    //let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     // req.body allows access data in a JSON object from client
-    let note = req.body;
+    //let note = req.body;
+    if (req.body) {
+        req.body.id = uuid();
+        readAndAppend(req.body, "./db/notes.json");
+        res.send(`${req.method}`);
+    }
    
 });
 
