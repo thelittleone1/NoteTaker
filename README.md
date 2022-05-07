@@ -35,5 +35,12 @@ This is an interatice app that allows the user to enter and delete notes.
  ## Demo
  
  Reference NoteTaker Demo in Assets Folder
-
  
+ ![image](https://user-images.githubusercontent.com/36391381/167271741-813d006a-e8a6-4a9c-abbf-09b6658ace5b.png)
+ ![image](https://user-images.githubusercontent.com/36391381/167271759-703473ef-dd66-4f7d-b75f-c1e552aa35fe.png)
+ 
+ ## Links
+ 
+ https://notetakerapp16.herokuapp.com/notes
+
+
