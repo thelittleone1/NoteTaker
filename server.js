@@ -10,3 +10,9 @@ const path = require("path");
 const app = express();
 // Need a Port to host site on
 const PORT = process.env.port || 3001;
+
+// Function to start the web page
+app.listen(PORT, () => {
+    console.log(`http://localhost: ${PORT}`);
+})
+
