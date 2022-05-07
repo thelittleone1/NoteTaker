@@ -68,13 +68,9 @@ app.delete("/api/notes/:id", (req, res) => {
     // Setting the entry to the id parameter
     let nextUserEntry = req.params.id;
     let newID = 0;
-    
+
     nextUserEntry.id = newID;
     userEntry.push(nextUserEntry);
-
-    fs.writeFileSync("./db/db.json", JSON.stringify(userEntry));
-    console.log(nextUserEntry);
-    res.json(userEntry);
 });
 
 // Pulled from Activity 10
