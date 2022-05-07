@@ -2,6 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const express = require("express");
+const uuid = require('./helpers/uuid');
 
 // Pulled from Activity 10
 // Consts for using Path 
@@ -53,7 +54,18 @@ app.post("/api/notes", (req, res) => {
     //let note = req.body;
     if (req.body) {
         req.body.id = uuid();
-        readAndAppend(req.body, "./db/notes.json");
+        //readAndAppend(req.body, "./db/notes.json");
+        fs.readFile("/db/notes.json", "utf8", (err, data) => {
+            if (err) {
+                console.error("Could not find file");
+            } else {
+                const userEntry = JSON.parse(data);
+                userEntry.push(req.body);
+                fs.writeFile("./db/notes.json", JSON.stringify(userEntry, null, 4), (err) => {
+                    err ? console.error(err) : console.info("Succsess!");
+                });
+            }
+        })
         res.send(`${req.method}`);
     }
    
