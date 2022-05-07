@@ -46,16 +46,19 @@ app.get("/api/notes/:id", (req, res) => {
     res.json(userEntry);
 });
 
+
+const util = require("node:util");
+const readFile = util.promisify(fs.readFile);
 // Activity 18 & 20
 // Post function to post userEntered notes
-app.post("/api/notes", (req, res) => {
+app.post("/", (req, res) => {
     //let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     // req.body allows access data in a JSON object from client
     //let note = req.body;
     if (req.body) {
         req.body.id = uuid();
         //readAndAppend(req.body, "./db/notes.json");
-        fs.readFile("/db/notes.json", "utf8", (err, data) => {
+        fs.readFile(file, "utf8", (err, data) => {
             if (err) {
                 console.error("Could not find file");
             } else {
@@ -65,9 +68,9 @@ app.post("/api/notes", (req, res) => {
                     err ? console.error(err) : console.info("Succsess!");
                 });
             }
-        })
+        });
         res.send(`${req.method}`);
-    }
+    };
    
 });
 
