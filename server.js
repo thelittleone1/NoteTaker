@@ -8,11 +8,29 @@ const express = require("express");
 // Initializing express
 const path = require("path");
 const app = express();
-// Need a Port to host site on
+// Need a Port to host site on Heroku 
+// and if not avaible use 3001
 const PORT = process.env.port || 3001;
 
+// Pulled from Activity 7
+// Sets up express to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
+
+// Reference: https://www.digitalocean.com/community/tutorials/nodejs-how-to-use__dirname
+// Refers to absulute path to directory containing the currently executing file
+// Used Activites 7 & 17
+const dirPath = path.join(_dirname, '/public');
+
+// Creating rotes to connect main path to other folders
+app.get("/notes", (req, res) => {
+    res.sendFile(path.join(dirPath, "notes.html"));
+});
+
+// Pulled from Activity 10
 // Function to start the web page
 app.listen(PORT, () => {
-    console.log(`http://localhost: ${PORT}`);
-})
+    console.log(`Serving static asset routes at: http://localhost:${PORT}`);
+});
 
