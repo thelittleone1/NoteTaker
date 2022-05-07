@@ -36,6 +36,16 @@ app.get("/api/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/db/db.json"));
 });
 
+// Activity 16
+// creating an id for each userEntry note
+// Function will allow saved notes to be parsed 
+// and saved to db
+app.get("/api/notes/:id", (req, res) => {
+    let userEntry = JSON.parse(fs.readFileSync("/db/db.json"));
+    res.json(userEntry);
+});
+
+
 // Pulled from Activity 10
 // Function to start the web page
 app.listen(PORT, () => {
