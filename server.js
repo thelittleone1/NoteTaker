@@ -65,8 +65,10 @@ app.post("/api/notes", (req, res) => {
 // adding the :id because to delete we need to access the note id
 app.delete("/api/notes/:id", (req, res) => {
     let userEntry = JSON.parse(fs.readFileSync("./db/db.json"));
-    let nextUserEntry = req.body;
-    let newID = (userEntry.length).toString();
+    // Setting the entry to the id parameter
+    let nextUserEntry = req.params.id;
+    let newID = 0;
+    
     nextUserEntry.id = newID;
     userEntry.push(nextUserEntry);
 
