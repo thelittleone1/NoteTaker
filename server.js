@@ -13,7 +13,7 @@ const path = require("path");
 const app = express();
 // Need a Port to host site on Heroku 
 // and if not avaible use 3001
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 
 // Pulled from Activity 7
 // Sets up express to handle data parsing
