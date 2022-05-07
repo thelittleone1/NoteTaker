@@ -61,6 +61,20 @@ app.post("/api/notes", (req, res) => {
     res.json(userEntry);
 });
 
+// Delete Method function
+// adding the :id because to delete we need to access the note id
+app.delete("/api/notes/:id", (req, res) => {
+    let userEntry = JSON.parse(fs.readFileSync("./db/db.json"));
+    let nextUserEntry = req.body;
+    let newID = (userEntry.length).toString();
+    nextUserEntry.id = newID;
+    userEntry.push(nextUserEntry);
+
+    fs.writeFileSync("./db/db.json", JSON.stringify(userEntry));
+    console.log(nextUserEntry);
+    res.json(userEntry);
+});
+
 // Pulled from Activity 10
 // Function to start the web page
 app.listen(PORT, () => {
