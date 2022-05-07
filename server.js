@@ -71,6 +71,28 @@ app.post("/api/notes", (req, res) => {
    
 });
 
+// Activity 20
+// Function to delete notes
+app.delete('/:id',(req,res) => {
+    if(req.params && req.params.id){
+        readFile('./db/notes.json','utf8').then((data) =>{
+            if(data){
+                const deleteNote = JSON.parse(data);
+                let spliceId = -1;
+                for(let note in deleteNote){
+                    if(deleteNote[note].id == req.params.id){
+                        spliceId = note;
+                        deleteNote.splice(note,1);
+                        break;
+                    }
+                }
+                writeToFile('./db/notes.json',deleteNote);
+            }
+        });
+    }
+    res.send('Message from delete');
+});
+
 // Pulled from Activity 10
 // Function to start the web page
 app.listen(PORT, () => {
