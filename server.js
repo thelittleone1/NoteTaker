@@ -21,7 +21,7 @@ app.use(express.static('public'));
 // Reference: https://www.digitalocean.com/community/tutorials/nodejs-how-to-use__dirname
 // Refers to absulute path to directory containing the currently executing file
 // Used Activites 7 & 17
-const dirPath = path.join(_dirname, '/public');
+const dirPath = path.join(__dirname, '/public');
 
 // Creating rotes to connect main path to other folders
 // Referenced Activity 18
@@ -36,15 +36,23 @@ app.get("/api/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/db/db.json"));
 });
 
-// Activity 16
+// Activity 16 and 18
 // creating an id for each userEntry note
 // Function will allow saved notes to be parsed 
 // and saved to db
 app.get("/api/notes/:id", (req, res) => {
-    let userEntry = JSON.parse(fs.readFileSync("/db/db.json"));
+    let userEntry = JSON.parse(fs.readFileSync("./db/db.json"));
     res.json(userEntry);
 });
 
+// Activity 18
+// Post function to post userEntered notes
+app.post("/api/notes", (req, res) => {
+    let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    // req.body allows access data in a JSON object from client
+    let note = req.body;
+   
+});
 
 // Pulled from Activity 10
 // Function to start the web page
