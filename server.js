@@ -3,6 +3,8 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const express = require("express");
 const uuid = require('./helpers/uuid');
+const util = require("node:util");
+const readFile = util.promisify(fs.readFile);
 
 // Pulled from Activity 10
 // Consts for using Path 
@@ -46,54 +48,17 @@ app.get("/api/notes/:id", (req, res) => {
     res.json(userEntry);
 });
 
+// Post Method function
+app.post("/api/notes", (req, res) => {
+    let userEntry = JSON.parse(fs.readFileSync("./db/db.json"));
+    let nextUserEntry = req.body;
+    let newID = (userEntry.length).toString();
+    nextUserEntry.id = newID;
+    userEntry.push(nextUserEntry);
 
-const util = require("node:util");
-const readFile = util.promisify(fs.readFile);
-// Activity 18 & 20
-// Post function to post userEntered notes
-app.post("/", (req, res) => {
-    //let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-    // req.body allows access data in a JSON object from client
-    //let note = req.body;
-    if (req.body) {
-        req.body.id = uuid();
-        //readAndAppend(req.body, "./db/notes.json");
-        fs.readFile(file, "utf8", (err, data) => {
-            if (err) {
-                console.error("Could not find file");
-            } else {
-                const userEntry = JSON.parse(data);
-                userEntry.push(req.body);
-                fs.writeFile("./db/notes.json", JSON.stringify(userEntry, null, 4), (err) => {
-                    err ? console.error(err) : console.info("Succsess!");
-                });
-            }
-        });
-        res.send(`${req.method}`);
-    };
-   
-});
-
-// Activity 20
-// Function to delete notes
-app.delete('/:id',(req,res) => {
-    if(req.params && req.params.id){
-        readFile('./db/notes.json','utf8').then((data) =>{
-            if(data){
-                const deleteNote = JSON.parse(data);
-                let spliceId = -1;
-                for(let note in deleteNote){
-                    if(deleteNote[note].id == req.params.id){
-                        spliceId = note;
-                        deleteNote.splice(note,1);
-                        break;
-                    }
-                }
-                writeToFile('./db/notes.json',deleteNote);
-            }
-        });
-    }
-    res.send('Message from delete');
+    fs.writeFileSync("./db/db.json", JSON.stringify(userEntry));
+    console.log(nextUserEntry);
+    res.json(userEntry);
 });
 
 // Pulled from Activity 10
@@ -101,4 +66,53 @@ app.delete('/:id',(req,res) => {
 app.listen(PORT, () => {
     console.log(`Serving static asset routes at: http://localhost:${PORT}`);
 });
+
+
+// // Activity 20
+// // Function to delete notes
+// app.delete('/:id',(req,res) => {
+//     if(req.params && req.params.id){
+//         readFile('./db/notes.json','utf8').then((data) =>{
+//             if(data){
+//                 const deleteNote = JSON.parse(data);
+//                 let spliceId = -1;
+//                 for(let note in deleteNote){
+//                     if(deleteNote[note].id == req.params.id){
+//                         spliceId = note;
+//                         deleteNote.splice(note,1);
+//                         break;
+//                     }
+//                 }
+//                 writeToFile('./db/notes.json',deleteNote);
+//             }
+//         });
+//     }
+//     res.send('Message from delete');
+// });
+
+// // Activity 18 & 20
+// // Post function to post userEntered notes
+// app.post("/", (req, res) => {
+//     //let userEntry = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+//     // req.body allows access data in a JSON object from client
+//     //let note = req.body;
+//     if (req.body) {
+//         req.body.id = uuid();
+//         //readAndAppend(req.body, "./db/notes.json");
+//         fs.readFile(file, "utf8", (err, data) => {
+//             if (err) {
+//                 console.error("Could not find file");
+//             } else {
+//                 const userEntry = JSON.parse(data);
+//                 userEntry.push(req.body);
+//                 fs.writeFile("./db/notes.json", JSON.stringify(userEntry, null, 4), (err) => {
+//                     err ? console.error(err) : console.info("Succsess!");
+//                 });
+//             }
+//         });
+//         res.send(`${req.method}`);
+//     };
+   
+// });
+
 
